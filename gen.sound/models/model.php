@@ -23,12 +23,24 @@ function getAllTracks($pdo) {
 
 // Добавление нового трека
 function insTrack($pdo, $data) {
-    $stmt = $pdo->prepare("INSERT INTO tracks (title, author_id) VALUES (:title, :author_id)");
-    $stmt->execute([
-        ':title' => $data['title'],
-        ':author_id' => $data['author_id']
-    ]);
-    return $pdo->lastInsertId();
+    // 1. Создаем запись в основной таблице tracks
+    $stmt = $pdo->prepare("INSERT INTO tracks (title, author_id) VALUES (?, ?)");
+    $stmt->execute([$data['title'], $data['author_id']]);
+    $trackId = $pdo->lastInsertId();
+
+    // 2. Добавляем текст в таблицу lyrics (там колонка называется text)
+    $stmt = $pdo->prepare("INSERT INTO lyrics (track_id, text) VALUES (?, ?)");
+    $stmt->execute([$trackId, $data['text']]);
+
+    // 3. Добавляем ссылку в таблицу links
+    $stmt = $pdo->prepare("INSERT INTO links (track_id, url) VALUES (?, ?)");
+    $stmt->execute([$trackId, $data['link']]);
+
+    // 4. Добавляем обложку в таблицу images (там колонка называется image)
+    $stmt = $pdo->prepare("INSERT INTO images (track_id, image) VALUES (?, ?)");
+    $stmt->execute([$trackId, $data['cover']]);
+
+    return $trackId;
 }
 
 // Добавление текста к треку
@@ -36,10 +48,6 @@ function insLyrics($pdo, $text, $track_id) {
     $stmt = $pdo->prepare("INSERT INTO lyrics (text, track_id) VALUES (?, ?)");
     $stmt->execute([$text, $track_id]);
 }
-?>
-
-<?php
-// ... (предыдущие функции addBD, getAllTracks) ...
 
 // Поиск пользователя для входа
 function selUser($pdo, $name) {
@@ -61,9 +69,6 @@ function selTrackFull($pdo, $id) {
     $stmt->execute([$id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
-
-// ... (существующие функции addBD, selUser, selTrackFull) ...
 
 // Регистрация нового автора
 function regUser($pdo, $name, $password)
@@ -93,19 +98,23 @@ function getTrackLink($pdo, $track_id) {
 }
 
 
-// ... (предыдущие функции) ...
-
-// Обновление основного названия трека
+// Обновление трека и связанных данных
 function upd($pdo, $data) {
-    // Если обложка не менялась, мы обновляем только текст и ссылки
-    // Если пришла новая обложка, обновляем и её
-    $sql = "UPDATE tracks SET 
-            title = :title, 
-            lyric_text = :text, 
-            track_url = :link, 
-            cover_url = :cover 
-            WHERE id = :id";
+    $id = $data['id'];
 
-    $stmt = $pdo->prepare($sql);
-    return $stmt->execute($data);
+    // 1. Обновляем название
+    $stmt = $pdo->prepare("UPDATE tracks SET title = ? WHERE id = ?");
+    $stmt->execute([$data['title'], $id]);
+
+    // 2. Обновляем текст
+    $stmt = $pdo->prepare("UPDATE lyrics SET text = ? WHERE track_id = ?");
+    $stmt->execute([$data['text'], $id]);
+
+    // 3. Обновляем ссылку
+    $stmt = $pdo->prepare("UPDATE links SET url = ? WHERE track_id = ?");
+    $stmt->execute([$data['link'], $id]);
+
+    // 4. Обновляем обложку
+    $stmt = $pdo->prepare("UPDATE images SET image = ? WHERE track_id = ?");
+    $stmt->execute([$data['cover'], $id]);
 }

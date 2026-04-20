@@ -18,49 +18,35 @@
         }
         .btn-purple { background: #6a4bc2; color: white; border: none; }
         .btn-purple:hover { background: #8261e1; color: white; }
-
-        /* Шапка профиля */
-        .auth-bar {
-            background: rgba(255, 255, 255, 0.07);
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .track-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(211, 179, 255, 0.3);
         }
-        a { text-decoration: none; }
     </style>
 </head>
 <body class="p-5">
 <div class="container">
-
-    <div class="auth-bar d-flex justify-content-between align-items-center">
-        <h2 style="color: #d1b3ff; margin: 0; font-weight: bold; text-shadow: 0 0 10px rgba(209, 179, 255, 0.3);">Gen Sound</h2>
-        <div>
-            <?php if (isset($_SESSION['user'])): ?>
-                <span class="me-3">Привет, <b class="text-info"><?= htmlspecialchars($_SESSION['user']['name']) ?></b></span>
-                <a href="processing/logout.process.php" class="btn btn-outline-danger btn-sm">Выйти</a>
-            <?php else: ?>
-                <a href="views/login.view.php" class="btn btn-outline-info btn-sm me-2">Вход</a>
-                <a href="views/register.view.php" class="btn btn-purple btn-sm">Регистрация</a>
-            <?php endif; ?>
-        </div>
-    </div>
-
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-white-50">Музыкальная база</h3>
-
+        <h1 style="color: #d1b3ff; font-weight: 800; letter-spacing: -1px;">GEN SOUND</h1>
         <?php if (isset($_SESSION['user'])): ?>
-            <a href="views/create.view.php" class="btn btn-success shadow-sm fw-bold">+ Добавить трек</a>
+            <div class="d-flex align-items-center gap-3">
+                <span>Привет, <b><?= htmlspecialchars($_SESSION['user']['name']) ?></b></span>
+                <a href="views/create.view.php" class="btn btn-purple">+ Добавить трек</a>
+                <a href="processing/logout.process.php" class="btn btn-outline-danger btn-sm">Выход</a>
+            </div>
         <?php else: ?>
-            <span class="badge bg-warning text-dark">Войдите, чтобы добавлять треки</span>
-        <?php endif; ?>
+            <a href="views/login.view.php" class="btn btn-purple px-4">Войти</a>
+            <?php subtitle: endif; ?>
     </div>
 
     <div class="table-responsive table-glass p-3">
-        <table class="table table-borderless align-middle mb-0 text-white">
+        <table class="table table-dark table-hover align-middle mb-0">
             <thead>
-            <tr style="border-bottom: 2px solid #6a4bc2;">
-                <th>Название трека</th>
+            <tr>
+                <th style="width: 70px;"></th> <th>Название</th>
                 <th>Автор</th>
                 <th class="text-center">Действия</th>
             </tr>
@@ -69,11 +55,14 @@
             <?php if (!empty($tracks)): ?>
                 <?php foreach ($tracks as $track): ?>
                     <tr>
+                        <td>
+                            <img src="uploads/<?= !empty($track['image']) ? htmlspecialchars($track['image']) : 'default.jpg' ?>"
+                                 alt="cover" class="track-img">
+                        </td>
                         <td class="fw-bold"><?= htmlspecialchars($track['title']) ?></td>
                         <td><span class="text-info">@</span><?= htmlspecialchars($track['author_name']) ?></td>
                         <td class="text-center">
                             <a href="processing/show.process.php?id=<?= $track['id'] ?>" class="btn btn-sm btn-info">👁 Просмотр</a>
-
                             <?php if (isset($_SESSION['user']) && ($_SESSION['user']['id'] == $track['author_id'] || $_SESSION['user']['role'] === 'admin')): ?>
                                 <a href="processing/select.process.php?id=<?= $track['id'] ?>" class="btn btn-sm btn-purple">📝</a>
                                 <a href="processing/delete.process.php?id=<?= $track['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Удалить?')">🗑</a>
@@ -82,7 +71,7 @@
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr><td colspan="3" class="text-center p-5 text-white-50">Список пуст. Станьте первым, кто добавит трек!</td></tr>
+                <tr><td colspan="4" class="text-center p-5 text-white-50">Треков пока нет...</td></tr>
             <?php endif; ?>
             </tbody>
         </table>
