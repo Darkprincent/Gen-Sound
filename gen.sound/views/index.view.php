@@ -60,7 +60,7 @@
                                  alt="cover" class="track-img">
                         </td>
                         <td class="fw-bold"><?= htmlspecialchars($track['title']) ?></td>
-                        <td><span class="text-info">@</span><?= htmlspecialchars($track['author_name']) ?></td>
+                        <td><span class="text-info"></span><?= htmlspecialchars($track['author_name']) ?></td>
                         <td class="text-center">
                             <a href="processing/show.process.php?id=<?= $track['id'] ?>" class="btn btn-sm btn-info">👁 Просмотр</a>
                             <?php if (isset($_SESSION['user']) && ($_SESSION['user']['id'] == $track['author_id'] || $_SESSION['user']['role'] === 'admin')): ?>
