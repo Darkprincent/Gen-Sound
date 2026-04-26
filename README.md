@@ -41,6 +41,25 @@ markdown
 
 ---
 
+
+
+## 🗄 База данных
+
+### ER-диаграмма (структура таблиц)
+
+![Структура базы данных](screenshots/database.png)
+
+### Таблицы и связи
+
+| Таблица | Поля | Связи |
+|---------|------|-------|
+| **authors** | id, name, password, role | — |
+| **tracks** | id, title, author_id | `author_id` → `authors.id` |
+| **lyrics** | id, text, track_id | `track_id` → `tracks.id` |
+| **links** | id, url, track_id | `track_id` → `tracks.id` |
+| **images** | id, image, track_id | `track_id` → `tracks.id` |
+| **ratings** | id, rate, track_id | `track_id` → `tracks.id` |
+
 ## 🛠 Технологии
 
 | Категория | Технология |
@@ -66,4 +85,4 @@ markdown
 
 Или же
 
-git clone [ссылка на репозиторий]
+git clone https://github.com/Darkprincent/Gen-Sound.git
