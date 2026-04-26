@@ -43,7 +43,7 @@ markdown
 
 ## 💼 Бизнес-план
 
-![Бизнес-план Gen Sound](images/diagram (1))
+![Бизнес-план Gen Sound](images/diagram (1).png)
 
 ---
 
