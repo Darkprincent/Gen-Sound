@@ -38,12 +38,6 @@ CREATE TABLE `authors` (
 -- Дамп данных таблицы `authors`
 --
 
-INSERT INTO `authors` (`id`, `name`, `password`, `role`) VALUES
-(1, 'Darprincent', '1234321', 'user'),
-(2, 'WildOnMusic', '5412', 'user'),
-(3, 'adm', '123', 'admin'),
-(4, 'XXXmanera', '1234', 'user');
-
 -- --------------------------------------------------------
 
 --
@@ -95,11 +89,7 @@ CREATE TABLE `lyrics` (
 --
 -- Дамп данных таблицы `lyrics`
 --
-
-INSERT INTO `lyrics` (`id`, `text`, `track_id`) VALUES
-(7, 'fsadfsadfsdasd', 7);
-
--- --------------------------------------------------------
+--------------------------------------------------------
 
 --
 -- Структура таблицы `ratings`
@@ -126,9 +116,6 @@ CREATE TABLE `tracks` (
 --
 -- Дамп данных таблицы `tracks`
 --
-
-INSERT INTO `tracks` (`id`, `title`, `author_id`) VALUES
-(7, 'Численный метода', 3);
 
 --
 -- Индексы сохранённых таблиц
