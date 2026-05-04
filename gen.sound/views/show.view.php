@@ -69,7 +69,7 @@
                 <div class="mt-4">
                     <h5 class="mb-3" style="color: #d1b3ff;">Текст песни</h5>
                     <div class="lyrics-text">
-                        <?= !empty($track['lyric_text']) ? htmlspecialchars($track['lyric_text']) : '<i>Текст для этого трека еще не добавлен.</i>' ?>
+                        <?= !empty($track['lyric']) ? htmlspecialchars($track['lyric']) : '<i>Текст не добавлен</i>' ?>
                     </div>
                 </div>
 

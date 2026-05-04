@@ -50,7 +50,7 @@
         <!-- Поле ТЕКСТ -->
         <div class="mb-3">
             <label class="label-purple">Текст песни</label>
-            <textarea name="text" class="form-control" rows="5"><?php echo $track['lyric_text']; ?></textarea>
+            <textarea name="text" class="form-control" rows="5"><?php echo $track['lyric']; ?></textarea>
         </div>
 
         <button type="submit" class="btn-purple w-100 py-2 fw-bold">СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
