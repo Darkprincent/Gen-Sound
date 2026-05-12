@@ -2,7 +2,13 @@
 session_start();
 require_once "../models/model.php";
 
-$userId = regUser(addBD(), trim($_POST['name']), $_POST['password']);
+$data = [
+    ':name'     => $_POST['name'],
+    ':password' => $_POST['password']
+];
+
+
+$userId = insUser(addBD(), $data);
 
 $_SESSION['user'] = ['id' => $userId, 'name' => $_POST['name'], 'role' => 'user'];
 

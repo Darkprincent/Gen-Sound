@@ -1,6 +1,6 @@
 <?php
 session_start();
 require_once "models/model.php";
-$pdo = addBD();
-$tracks = getAllTracks($pdo);
+$tracks = selAllTracks(addBD());
 include "views/index.view.php";
+?>
