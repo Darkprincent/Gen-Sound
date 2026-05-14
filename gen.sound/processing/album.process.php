@@ -1,11 +1,7 @@
 <?php
+session_start();
 require_once "../models/model.php";
-
-$pdo = addBD();
-$id = $_GET['id'];
-
-// Используем функции из модели
-$album = getAlbumId($pdo, $id);
-$tracks = getAlbumTracks($pdo, $id);
-
+$album = getAlbumById(addBD(), $_GET['id']);
+$tracks = getAlbumTracks(addBD(), $_GET['id']);
 include "../views/album.view.php";
+?>

@@ -28,21 +28,26 @@
             <select name="album_id" class="form-control">
                 <option value="">Без альбома</option>
                 <?php
-
-                $all_albums = getAuthorAlbums(addBD(), $_SESSION['user']['id']);
-                foreach ($all_albums as $album):
-                    ?>
-                    <option value="<?= $album['id'] ?>" <?= ($album['id'] == $track['album_id']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($album['name']) ?>
-                    </option>
-                <?php endforeach; ?>
+                // ✅ ИСПРАВЛЕНО: проверка на существование сессии
+                if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) {
+                    $all_albums = getAuthorAlbums(addBD(), $_SESSION['user']['id']);
+                    foreach ($all_albums as $album):
+                        $selected = ($album['id'] == ($track['album_id'] ?? 0)) ? 'selected' : '';
+                        ?>
+                        <option value="<?= $album['id'] ?>" <?= $selected ?>>
+                            <?= htmlspecialchars($album['name']) ?>
+                        </option>
+                    <?php
+                    endforeach;
+                }
+                ?>
             </select>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Новая обложка</label>
             <input type="file" name="image" class="form-control" accept="image/*">
-            <small class="text-white-50">Текущая: <?= $track['image'] ?></small>
+            <small class="text-white-50">Текущая: <?= htmlspecialchars($track['image']) ?></small>
         </div>
 
         <div class="mb-3">

@@ -20,6 +20,20 @@
             <input type="text" name="title" class="form-control" required>
         </div>
         <div class="mb-3">
+            <label class="form-label">Альбом</label>
+            <select name="album_id" class="form-control">
+                <option value="">Без альбома</option>
+                <?php
+                if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) {
+                    $all_albums = getAuthorAlbums(addBD(), $_SESSION['user']['id']);
+                    foreach ($all_albums as $album): ?>
+                        <option value="<?= $album['id'] ?>"><?= htmlspecialchars($album['name']) ?></option>
+                    <?php endforeach;
+                }
+                ?>
+            </select>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Обложка</label>
             <input type="file" name="image" class="form-control" accept="image/*">
         </div>
