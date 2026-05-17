@@ -59,17 +59,17 @@ function updTrack($pdo, $data){
 }
 
 function delTrack($pdo, $id){
-    // удаляем оценки
+
     $stmt = $pdo->prepare("DELETE FROM ratings WHERE track_id = :id");
     $stmt->execute([':id' => $id]);
-    // удаляем файл картинки
+
     $stmt = $pdo->prepare("SELECT image FROM tracks WHERE id = :id");
     $stmt->execute([':id' => $id]);
     $track = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($track && $track['image'] != 'default.jpg') {
         unlink('../uploads/' . $track['image']);
     }
-    // удаляем трек
+
     $stmt = $pdo->prepare("DELETE FROM tracks WHERE id = :id");
     $stmt->execute([':id' => $id]);
 }
@@ -140,4 +140,3 @@ function delAlbum($pdo, $id){
     $stmt = $pdo->prepare("DELETE FROM albums WHERE id = :id");
     $stmt->execute([':id' => $id]);
 }
-?>
